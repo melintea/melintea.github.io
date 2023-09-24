@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Getting the sute started 
+title: Getting the site started 
 ---
 
 Next you can update your site name, avatar and other options using the _config.yml file in the root of your repository (shown below).
