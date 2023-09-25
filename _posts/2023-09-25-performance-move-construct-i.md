@@ -20,7 +20,7 @@ So that little 5% stone in your access shoes will slowly sand away the gains mad
 
 And see that 250+ % max penalty? That is the initial access, always to be incurred. The cache simply builds itself with significantly more efforts. One-time is not too bad. But in my initial tests, I was hitting the max with every access and I can still modify the test to max it - it is a two lines change that thrashes the cache. And a real application might do just that - constantly operating with the cache on the wrong foot unless optimized. 
 
-PS: I am still at a loss why we have 11% more instructions for reading moved data.
+PS: I am still at a loss why we have 11% more instructions for reading moved data. Very likely it is cache related.
 
 [1] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp)
 
