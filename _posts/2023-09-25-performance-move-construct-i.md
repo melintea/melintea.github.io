@@ -5,7 +5,7 @@ title: A note on the performance of move-constructing
 
 I heard at least twice that move-constructed objects can negatively impact performance (when compared to plain copy-constructed objects that is). There is an extra memory diffusion which does worsen data access. But I have not been shown any data nor could I find any.
 
-To fill that gap, here is what I measured on an 4-cpu Intel(R) Pentium(R) Gold G5420 machine for a vector of strings when reading that data [1]:
+Here is what I measured on an 4-cpu Intel(R) Pentium(R) Gold G5420 machine for a vector of strings when reading that data [1]:
 
 | Counter          | min%    | max%    | mean%  | median%  | stddev       |
 | ---------------- | ------- | ------- | ------ | -------- | ------------ |
@@ -18,7 +18,7 @@ On that particular arhitecture, for that particular data structure there is a 5%
 
 So that little 5% stone in your access shoes will slowly sand away the gains made by move-constructing. If you move-construct, access the data a few times and then destroy the object: most likely you keep most of the construction gain (that is an educated guess - you need to measure to really be sure). But if you move-construct your globals then access them thousands of times until the process dies, then I would wagger you made the performance worse.
 
-And see that 250+ % max penalty? That is the initial access, always to be incurred. The cache simply builds itself with significantly more efforts. One-time is not too bad. But in my initial tests, I was hitting the max with every access and I can still modify the test to max it - it is a two lines change that thrashes the cache. And a real application might do just that - constantly operating with the cache on the wrong foot unless optimized. Scary.
+And see that 250+ % max penalty? That is the initial access, always to be incurred. The cache simply builds itself with significantly more efforts. One-time is not too bad. But in my initial tests, I was hitting the max with every access and I can still modify the test to max it - it is a two lines change that thrashes the cache. And a real application might do just that - constantly operating with the cache on the wrong foot unless optimized. 
 
 PS: I am still at a loss why we have 11% more instructions for reading moved data.
 
