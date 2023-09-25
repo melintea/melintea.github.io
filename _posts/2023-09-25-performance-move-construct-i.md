@@ -7,12 +7,12 @@ I heard at least twice that move-constructed objects can negatively impact perfo
 
 Here is what I measured on an 4-cpu Intel(R) Pentium(R) Gold G5420 machine for a vector of strings when reading that data [1]:
 
-| Counter          | min%    | max%    | mean%  | median%  | stddev       |
-| ---------------- | ------- | ------- | ------ | -------- | ------------ |
-| Instructions     | 11.25   | 11.25   | 11.25  | 11.25    | 0.000113846  |
-| CPU cycles       | -12.61  | 253.97  | 10.58  | 5.11     | 37.20        |
-| L1 cache misses  | 3.77    | 216.78  | 8.22   | 4.19     | 30.09        |
-| L2 cache misses  | 3.71    | 327.55  | 11.06  | 4.35     | 45.67        |
+    | Counter          | min%    | max%    | mean%  | median%  | stddev       |
+    | ---------------- | ------- | ------- | ------ | -------- | ------------ |
+    | Instructions     | 11.25   | 11.25   | 11.25  | 11.25    | 0.000113846  |
+    | CPU cycles       | -12.61  | 253.97  | 10.58  | 5.11     | 37.20        |
+    | L1 cache misses  | 3.77    | 216.78  | 8.22   | 4.19     | 30.09        |
+    | L2 cache misses  | 3.71    | 327.55  | 11.06  | 4.35     | 45.67        |
 
 On that particular arhitecture, for that particular data structure there is a 5% data access penalty and this due to the way the CPU cache is being thrashed around. On different architectures that median value is certainly different but for that machine I would think that 5% is quite typical for any data structure that has not been cache-optimized. 
 
