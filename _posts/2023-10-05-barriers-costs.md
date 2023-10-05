@@ -5,6 +5,7 @@ title: A note on barriers costs
 
 On Intel, avoid std::memory_order_seq_cst and std::memory_order_acq_rel. If you can...
 
+![_config.yml]({{ site.baseurl }}/images/barriers-intel2.png)
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel1.png)
 
 
