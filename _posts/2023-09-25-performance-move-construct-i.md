@@ -24,7 +24,7 @@ How many reads before this move advantage becomes an actual disadvantage? For th
 
 The CPU churns 11% more instructions for reading moved data as the CPU assumes a data locality that is not there in this case. That is, if you access memory location x, the CPU will load a bunch of extra bytes on the assumption that you will next access x+1 and x+2 and etc. For this structure, some of these extra loads are useless - the next byte is not x+1 but somehwere else, far away, and maybe as far as another memory page. So it has to load x+1 again (and the bunch of extra bytes, as above). 
 
-An object with more intrinsic data locality would exhibit better performance after moving; e.g. an object with bigger contigous data members that span multiple cache lines would be more suitable for moving. I am still not sure moving it would beat plain copy-construction.
+An object with more intrinsic data locality would exhibit better performance after moving; e.g. an object with bigger contigous data members that span multiple cache lines would be more suitable for moving. I still would not be sure moving would beat plain copy-construction, unless I see the mesurements.
 
 [1] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp)
 [2] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp)
