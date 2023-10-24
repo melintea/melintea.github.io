@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Barriers: relaxed vs release
+title: Barriers usage
 ---
 
 Barriers: relaxed vs release:
