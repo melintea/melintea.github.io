@@ -3,7 +3,6 @@ layout: post
 title: Barriers usage
 ---
 
-Barriers: relaxed vs release:
 
     Barrier    Usage
     ---------  ------  
