@@ -4,27 +4,28 @@ title: Some lock timings
 ---
 
 Caveats first:
-- these measurements are only indicative for you specific architecture. 
+- these measurements are only indicative for your specific architecture. 
 - these measurements are completely useless out of the software context where used (i.e. what you use the lock for; how long you hold it; etc)
 
 So just use these as a guide and not as substitute for mesurements in a given software context & hardware.
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel2.png)
 
-With caveats in mind:
+With the caveats in mind:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
-- lock-free is next best (ignoring the above software context note)
-- spinlocks lose their advantage over mutexes as soon as the contention keeps growing. In this particular test, on a 4-CPU machine, the mutex wins if over 32 threads. They are rather CPU-intensive and cache-destructive (YMMV with the hardware). In my tests, completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
+- lock-free is next best (ignoring the above note on software contexts which might make it underperform, say, mutexes)
+- spinlocks: beating the mutexes in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing. In this particular test, on a 4-CPU machine, the mutex wins if over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - YMMV with the hardware flavors. And not scaling well with contention. At all. In my tests, completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
 
-Microsoft tried to combine both the spinlock and the mutex into a "critical section" object. Used in the stdio, it defaults to:
+Another note: Microsoft tried to combine both the spinlock and the mutex into a CRITICAL_SECTION object. Used in the stdio area, the spin defaults to:
 
 ```
 #define _CORECRT_SPINCOUNT  4000
 ```
 
-I am not sure this is still appropriate for current architectures. IMO that number should have been tied to the number of CPUs; even so, contention could ruin the day.
+Without apropriate measurements I should voice no opinion but: I am not sure this is still appropriate for current architectures. IMO that number should have been tied to the number of CPUs; even so, contention could ruin the day so maybe a dynamic spin value is needed. 
+
 
 ```
 
