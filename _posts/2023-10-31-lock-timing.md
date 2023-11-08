@@ -13,8 +13,8 @@ A set of measurements for various lock types. Use these as a guide and not as fu
 With above caveats in mind:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
 - lock-free is next best (ignoring the above note on software contexts which might make it underperform, say, mutexes)
-- the mutex is pretty constant with any contention level once contention reaches 2xCPU threads
-- spinlocks: while beating the mutexes in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU machine, the mutex wins if contention goes over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
+- the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads
+- pthread_spinlock_t: while beating the std::mutexe in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
 
@@ -24,7 +24,7 @@ Another note: Microsoft combined both the spinlock and the mutex into a CRITICAL
 #define _CORECRT_SPINCOUNT  4000
 ```
 
-Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less if more contention. 
+Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less with increased contention. 
 
 
 ```
