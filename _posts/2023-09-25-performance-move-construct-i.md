@@ -36,7 +36,7 @@ And this is an 4-CPU ARM Cortex A76 with a 512kb per-core L2 cache & 2Mb L3; 256
     L2 cache misses       36.3684 9995.55 239.577 53.1118 1407.86 
     Branch mispredictions 26.4151 136.364 67.1721 62.9479 24.8802
 
-Here the measured move gain was a paltry 1.5% [^2].
+Here the measured move gain was a paltry 1.5% [^2]. Against this there is a median of 50% access performance loss and a first-time cold-cache one that is 16x worse if move-constructing. The cache line being 8x larger than Intel's so is the damage. Bigger caches are good, larger cache lines not so much.
 
 [^1] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp)
 [^2] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp)
