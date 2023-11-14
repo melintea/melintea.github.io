@@ -26,7 +26,7 @@ The CPU churns 11% more instructions for reading moved data as the CPU assumes a
 
 Move-constructing small objects worsens performance. An object with more intrinsic data locality would exhibit better performance after moving; e.g. an object with bigger contigous data members that span multiple cache lines would be more suitable for moving. I still would not be sure moving would beat plain copy-construction, unless I see the mesurements.  
 
-And this is an 4-CPU ARM Cortex A76 with a 512kb per-core L2 cache & 2Mb L3; 256 bytes cache line [^1]:
+And this is an 4-CPU ARM Cortex A76 with a 512kb per-core L2 cache & 2Mb L3; 256 bytes cache line (likely a Raspberry 5 documentation typo; my CPU checks report a 64 bytes line) [^1]:
 
     CPU Counter           min%    max%    mean%  median%  stddev     
     ---------------       ------  ------  -----  -------  -----------
@@ -36,7 +36,7 @@ And this is an 4-CPU ARM Cortex A76 with a 512kb per-core L2 cache & 2Mb L3; 256
     L2 cache misses       36.3684 9995.55 239.577 53.1118 1407.86 
     Branch mispredictions 26.4151 136.364 67.1721 62.9479 24.8802
 
-Here the measured move gain was a paltry 1.5% [^2]. Against this there is a median of 50% access performance loss and a first-time cold-cache one that is 16x worse if move-constructing. The cache line being 8x larger than Intel's so is the damage. Bigger caches are good, larger cache lines not so much.
+Here the measured move gain was a paltry 1.5% [^2]. Against this there is a median of 50% access performance loss and a first-time cold-cache one that is 16x worse if move-constructing. 
 
 [^1] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove3.cpp)
 [^2] [https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp](https://github.com/melintea/lpt-tools/blob/main/src/papi/examples/papimove4.cpp)
