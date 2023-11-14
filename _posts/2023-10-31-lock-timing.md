@@ -17,6 +17,7 @@ With above caveats in mind:
 - pthread_spinlock_t: while beating the std::mutexe in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
+![_config.yml]({{ site.baseurl }}/images/lock-timing-arm1.png)
 
 Another note: Microsoft combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is used in the stdio area and the spin defaults to:
 
@@ -101,6 +102,75 @@ Benchmark                                  Time             CPU   Iterations
 ----------------------------------------------------------------------------
 BM_WaitFree/real_time/threads:1_BigO 51255644.76 (1)  94781441.93 (1)
 BM_WaitFree/real_time/threads:1_RMS        132 %            79 %
+
+
+Run on (4 X ARM Cortex A76 2400 MHz CPU s)
+Load Average: 0.62, 1.01, 2.31
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+---------------------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations       Rate
+---------------------------------------------------------------------------------------
+BM_Mutex/real_time/threads:1       391728653 ns    391664156 ns            2 42.8287M/s
+BM_Mutex/real_time/threads:2      1566944408 ns   3133732396 ns            2  10.707M/s
+BM_Mutex/real_time/threads:4       612992238 ns   2392159907 ns            4 13.6847M/s
+BM_Mutex/real_time/threads:8       307948406 ns   1236959937 ns            8 13.6202M/s
+BM_Mutex/real_time/threads:16      152801352 ns    616390236 ns           16 13.7247M/s
+BM_Mutex/real_time/threads:32       76441163 ns    309636400 ns           32 13.7174M/s
+BM_Mutex/real_time/threads:64       37117348 ns    154299111 ns           64 14.1251M/s
+BM_Mutex/real_time/threads:128      18554308 ns     76519239 ns          128 14.1285M/s
+----------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations
+----------------------------------------------------------------------------
+BM_Mutex/real_time/threads:1_BigO 395565984.59 (1)  1038920172.78 (1)
+BM_Mutex/real_time/threads:1_RMS         122 %           103 %
+---------------------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations       Rate
+---------------------------------------------------------------------------------------
+BM_PtSpin/real_time/threads:1      335765098 ns    335708915 ns            2 49.9671M/s
+BM_PtSpin/real_time/threads:2      962264267 ns   1924431122 ns            2 17.4351M/s
+BM_PtSpin/real_time/threads:4      783641221 ns   3133445422 ns            4 10.7047M/s
+BM_PtSpin/real_time/threads:8      817023173 ns   3622510467 ns            8 5.13364M/s
+BM_PtSpin/real_time/threads:16     566111544 ns   2988853489 ns           16 3.70449M/s
+BM_PtSpin/real_time/threads:32     555493463 ns   2963675116 ns           32 1.88765M/s
+BM_PtSpin/real_time/threads:64     495072239 ns   2675959007 ns           64 1.05901M/s
+BM_PtSpin/real_time/threads:128    443209706 ns   2504237100 ns          128 591.467k/s
+----------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations
+----------------------------------------------------------------------------
+BM_PtSpin/real_time/threads:1_BigO 619822588.94 (1)  2518602579.64 (1)
+BM_PtSpin/real_time/threads:1_RMS         32 %            38 %
+---------------------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations       Rate
+---------------------------------------------------------------------------------------
+BM_LockFree/real_time/threads:1    304616840 ns    304599629 ns            2 55.0765M/s
+BM_LockFree/real_time/threads:2   1293569432 ns   2586995454 ns            2 12.9697M/s
+BM_LockFree/real_time/threads:4    432387447 ns   1725480652 ns            4 19.4007M/s
+BM_LockFree/real_time/threads:8    206437024 ns    885006719 ns            8 20.3176M/s
+BM_LockFree/real_time/threads:16   101065450 ns    446462100 ns           16 20.7504M/s
+BM_LockFree/real_time/threads:32    49824142 ns    222821562 ns           32 21.0455M/s
+BM_LockFree/real_time/threads:64    24972667 ns    111576392 ns           64 20.9945M/s
+BM_LockFree/real_time/threads:128   12051590 ns     55933942 ns          128 21.7518M/s
+----------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations
+----------------------------------------------------------------------------
+BM_LockFree/real_time/threads:1_BigO 303115573.90 (1)  792359556.14 (1)
+BM_LockFree/real_time/threads:1_RMS        132 %           107 %
+---------------------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations       Rate
+---------------------------------------------------------------------------------------
+BM_WaitFree/real_time/threads:1    195901983 ns    195836796 ns            4 42.8204M/s
+BM_WaitFree/real_time/threads:2    476774620 ns    953498468 ns            2  35.189M/s
+BM_WaitFree/real_time/threads:4    235439963 ns    936727617 ns            4 35.6295M/s
+BM_WaitFree/real_time/threads:8    113586573 ns    468203491 ns            8 36.9261M/s
+BM_WaitFree/real_time/threads:16    54961626 ns    235692911 ns           16 38.1567M/s
+BM_WaitFree/real_time/threads:32    27041085 ns    118543902 ns           32 38.7771M/s
+BM_WaitFree/real_time/threads:64    13129261 ns     58700909 ns           64 39.9328M/s
+BM_WaitFree/real_time/threads:128    5941350 ns     29392164 ns          128  44.122M/s
+----------------------------------------------------------------------------
+Benchmark                                  Time             CPU   Iterations
+----------------------------------------------------------------------------
+BM_WaitFree/real_time/threads:1_BigO 140347057.76 (1)  374574532.35 (1)
+BM_WaitFree/real_time/threads:1_RMS        107 %            94 %
 
 ```
 
