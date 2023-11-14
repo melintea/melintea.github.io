@@ -9,6 +9,7 @@ A set of measurements for various lock types. Use these as a guide and not as fu
 
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel2.png)
+![_config.yml]({{ site.baseurl }}/images/lock-timing-arm1.png)
 
 With above caveats in mind:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
@@ -17,7 +18,6 @@ With above caveats in mind:
 - pthread_spinlock_t: while beating the std::mutexe in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
-![_config.yml]({{ site.baseurl }}/images/lock-timing-arm1.png)
 
 Another note: Microsoft combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is used in the stdio area and the spin defaults to:
 
