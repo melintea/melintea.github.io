@@ -7,6 +7,7 @@ On Intel, avoid std::memory_order_seq_cst and std::memory_order_acq_rel. If you 
 
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel2.png)
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel1.png)
+![_config.yml]({{ site.baseurl }}/images/barriers-arm1.png)
 
 
     Threads  R&W:plain   R&W:cst      R:acq/W:rel  R:cons/W:rel  R&W:acqrel   R&W:rlxd
