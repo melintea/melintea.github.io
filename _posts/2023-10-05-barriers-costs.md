@@ -6,6 +6,7 @@ title: A note on barriers costs
  - On Intel: avoid std::memory_order_seq_cst and std::memory_order_acq_rel; if you can.
  - On ARM: use relaxed if you can; everything else is expensive.
 
+
     Threads  R&W:plain   R&W:cst      R:acq/W:rel  R:cons/W:rel  R&W:acqrel   R&W:rlxd
     -------  --------    -------      -----------  ------------  -------      -----------
     1        33127114    137253027    14527492     14390159      83419552     15516709
@@ -19,6 +20,7 @@ title: A note on barriers costs
 
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel2.png)
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel1.png)
+
 
     Threads  R&W:plain   R&W:cst      R:acq/W:rel  R:cons/W:rel  R&W:rlxd
     -------  --------    -------      -----------  ------------  -----------
