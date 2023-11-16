@@ -3,10 +3,10 @@ layout: post
 title: A note on barriers costs
 ---
 
-Here is a set of measurements for one Intel CPU and one ARM CPU. While you still need to measure for your specific platform (and appication), I think this is a fair generalization:
+Here is a set of benchmarks for one Intel CPU and one ARM CPU. While you still need to measure for your specific platform (and application), I think this is a fair generalization:
 
  - On Intel: avoid std::memory_order_seq_cst and std::memory_order_acq_rel; if you can.
- - On ARM: use relaxed if you can; everything else is expensive and about the same.
+ - On ARM: use std::memory_order_relaxed if you can; everything else is expensive and about the same.
 
 
     | Threads  | R&W:plain   | R&W:cst      | R:acq/W:rel  |R:cons/W:rel  | R&W:acqrel   | R&W:rlxd
