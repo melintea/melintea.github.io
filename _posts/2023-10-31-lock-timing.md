@@ -11,15 +11,18 @@ A set of measurements for various lock types. Use these as a guide and not as fu
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel2.png)
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-arm1.png)
 
-With above caveats in mind:
+With above caveats in mind, I think these are fair inferences from the data:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
-- lock-free is next best (ignoring the above note on software contexts which might make it underperform, say, mutexes)
-- the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads
-- pthread_spinlock_t: while beating the std::mutexe in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention. Here is is:
+- lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes)
+- the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads (Intel); or more than once CPU (ARM)
+- pthread_spinlock_t: 
+    - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
+    - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
+    - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
 
-Another note: Microsoft combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is used in the stdio area and the spin defaults to:
+Another note: Microsoft must have run similar tests, on Intel, years ago. It combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is used in the stdio area and the spin defaults to:
 
 ```
 #define _CORECRT_SPINCOUNT  4000
