@@ -19,7 +19,7 @@ With above caveats in mind, I think these are fair inferences from the data:
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better (the pthead one is written in directly in assembler though; so good luck).
+    - Custom-written spinlocks could behave better (the pthead one is written in directly in assembler though; so good luck[^1]).
     - Here is is:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
@@ -180,4 +180,6 @@ BM_WaitFree/real_time/threads:1_RMS        107 %            94 %
 
 ```
 -->
+
+[^1]: [https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html](https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html)
 
