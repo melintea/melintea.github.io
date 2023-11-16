@@ -28,6 +28,7 @@ Another note: Microsoft combined both the spinlock and the mutex into a CRITICAL
 Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less with increased contention. 
 
 
+<!--
 ```
 
 Run on (4 X 3800 MHz CPU s)
@@ -173,4 +174,5 @@ BM_WaitFree/real_time/threads:1_BigO 140347057.76 (1)  374574532.35 (1)
 BM_WaitFree/real_time/threads:1_RMS        107 %            94 %
 
 ```
+-->
 
