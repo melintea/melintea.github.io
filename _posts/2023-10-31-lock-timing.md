@@ -13,13 +13,13 @@ A set of measurements for various lock types. Use these as a guide and not as fu
 
 With above caveats in mind, I think these are fair inferences from the data:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
-- lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes; see e.g. {% link _posts/2023-09-24-lockfree-gone-wrong.md %}[^3])
+- lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes; see e.g. {% link _posts/2023-09-24-lockfree-gone-wrong.md %}[^1])
 - the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads (Intel); or more than once CPU (ARM)
 - pthread_spinlock_t: 
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus' one has very good performance[^1]. Not a simple task[^2].
+    - Custom-written spinlocks could behave better: Fedor Pikus' one has very good performance[^2]. Not a simple task[^3].
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
@@ -181,7 +181,7 @@ BM_WaitFree/real_time/threads:1_RMS        107 %            94 %
 ```
 -->
 
-[^1]: [https://github.com/melintea/lpt-tools/blob/main/include/lpt/spinlock.hpp](https://github.com/melintea/lpt-tools/blob/main/include/lpt/spinlock.hpp)
-[^2]: [https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html](https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html)
-[^3]: [https://melintea.github.io/lockfree-gone-wrong/](https://melintea.github.io/lockfree-gone-wrong/)
+[^1]: [https://melintea.github.io/lockfree-gone-wrong/](https://melintea.github.io/lockfree-gone-wrong/)
+[^2]: [https://github.com/melintea/lpt-tools/blob/main/include/lpt/spinlock.hpp](https://github.com/melintea/lpt-tools/blob/main/include/lpt/spinlock.hpp)
+[^3]: [https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html](https://coffeebeforearch.github.io/2020/11/07/spinlocks-7.html)
 
