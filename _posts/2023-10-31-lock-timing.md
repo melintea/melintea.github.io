@@ -13,7 +13,7 @@ A set of measurements for various lock types. Use these as a guide and not as fu
 
 With above caveats in mind, I think these are fair inferences from the data:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
-- lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes; see e.g. {% post_url 2023-09-24-lockfree-gone-wrong.md %})
+- lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes; see e.g. {% link _posts/2023-09-24-lockfree-gone-wrong.md %})
 - the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads (Intel); or more than once CPU (ARM)
 - pthread_spinlock_t: 
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
