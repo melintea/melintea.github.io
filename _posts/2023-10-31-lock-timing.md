@@ -3,7 +3,7 @@ layout: post
 title: Some lock timings 
 ---
 
-A set of measurements for various lock types. Use these as a guide and not as full substitute for mesurements in a given software context & hardware:
+Made a set of measurements for various lock types. These can be used as a guide and not as full substitute for mesurements in a given software context & hardware:
 - these measurements are only indicative for a different architecture. 
 - these measurements are completely useless out of the software context where used (i.e. what is the lock used for; how long is it held; etc)
 
@@ -19,7 +19,7 @@ With above caveats in mind, I think these are fair inferences from the data:
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus' one has very good performance[^2]. Or the Rigtorp' one[^4]. Not a simple task[^3].
+    - Custom-written spinlocks could behave better: Fedor Pikus' one has very good performance[^2]. Or the Rigtorp' one[^3]. Not a simple task[^4]. IMO the improved performance stems from yielding/sleeping.
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
