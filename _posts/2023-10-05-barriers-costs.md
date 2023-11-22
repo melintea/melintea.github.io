@@ -9,6 +9,8 @@ Here is a set of benchmarks for one Intel CPU and one ARM CPU. While you still n
  - On ARM: use std::memory_order_relaxed if you can; everything else is expensive and about the same.
 
 
+Intel:
+
     | Threads  | R&W:plain   | R&W:cst      | R:acq/W:rel  |R:cons/W:rel  | R&W:acqrel   | R&W:rlxd
     | -------  | --------    | -------      | -----------  |------------  | -------      | -----------
     | 1        | 33127114    | 137253027    | 14527492     |14390159      | 83419552     | 15516709
@@ -23,6 +25,8 @@ Here is a set of benchmarks for one Intel CPU and one ARM CPU. While you still n
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel2.png)
 ![_config.yml]({{ site.baseurl }}/images/barriers-intel1.png)
 
+
+ARM:
 
     | Threads  | R&W:plain   | R&W:cst      | R:acq/W:rel  | R:cons/W:rel  | R&W:rlxd
     | -------  | --------    | -------      | -----------  | ------------  | -----------
