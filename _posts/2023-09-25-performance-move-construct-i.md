@@ -3,7 +3,7 @@ layout: post
 title: A note on the performance of move-constructing
 ---
 
-Everybody likes to move it move it, as King Julien of Madagascar cartoon fame said. But I heard at least twice that move-constructed objects can negatively impact performance (when compared to plain copy-constructed objects that is). There is an extra memory diffusion which does worsen data access. But I have not been shown any hard data nor could I find any.
+Everybody likes to move it move it, including King Julien of Madagascar cartoon fame. Inconditionally. But I heard at least twice that move-constructed objects can negatively impact performance (when compared to plain copy-constructed objects that is). There is an extra memory diffusion which does worsen data access. But I have not been shown any hard data nor could I find any.
 
 Here is what I measured on an 4-cpu Intel(R) Pentium(R) Gold G5420 machine with a 64 bytes cache line for a vector of strings when reading that moved data, when compared against reading plain-constructed data[^1]. If positive, move worsened access, if negative it improved it (I wish):
 
