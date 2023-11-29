@@ -19,18 +19,18 @@ With above caveats in mind, I think these are fair inferences from the data:
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus' one has very good performance[^2]. Or the Rigtorp' one[^3]. Not a simple task[^4]. IMO the improved performance stems from yielding/sleeping.
+    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. Not a simple task[^4]. IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet.
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
 
-Another note: Microsoft must have run similar tests, on Intel, years ago. It combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is used in the stdio area and the spin defaults to:
+Another note: Microsoft must have run similar tests, on Intel, years ago. It combined both the spinlock and the mutex into a CRITICAL_SECTION object. It is now used in the stdio area and the spin defaults to:
 
 ```
 #define _CORECRT_SPINCOUNT  4000
 ```
 
-Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less with increased contention. 
+So it spins 4000 times before deciding to sleep on the mutex. Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that fixed spin number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less with increased contention. 
 
 
 <!--
