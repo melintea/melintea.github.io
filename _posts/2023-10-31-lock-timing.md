@@ -5,7 +5,7 @@ title: Some lock timings
 
 Made a set of measurements for various lock types. These can be used as a guide and not as full substitute for mesurements in a given software context & hardware:
 - these measurements are only indicative for a different architecture. 
-- these measurements are completely useless out of the software context where used (i.e. what is the lock used for; how long is it held; etc)
+- these measurements are even less useful out of the software context where used (i.e. what is the lock used for; how long is it held; etc)
 
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel2.png)
@@ -19,7 +19,7 @@ With above caveats in mind, I think these are fair inferences from the data:
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. Not a simple task[^4]. IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet.
+    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; with the sleep algorithm quite dependent on the architecture. 
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
@@ -31,6 +31,8 @@ Another note: Microsoft must have run similar tests, on Intel, years ago. It com
 ```
 
 So it spins 4000 times before deciding to sleep on the mutex. Without apropriate measurements I should have no opinion but: I am not sure this is still appropriate for nowadays architectures. IMO that fixed spin number should have been scaled inversely to the number of CPUs; then maybe a contention-dynamic spin value is needed - spin less with increased contention. 
+
+As for ARM, there does not seem to be much to gain with a CRITICAL_SECTION.
 
 
 <!--
