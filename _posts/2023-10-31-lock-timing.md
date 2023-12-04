@@ -15,11 +15,11 @@ With above caveats in mind, I think these are fair inferences from the data:
 - wait-free is best (duh) but there are probably not many places where it can be used. Very cache-friendly too.
 - lock-free is next best (but keep in mind the above note on software contexts which might make it underperform, say, mutexes; see e.g. {% link _posts/2023-09-24-lockfree-gone-wrong.md %}[^1])
 - the std::mutex is pretty constant with any contention level once contention reaches 2xCPU threads (Intel); or more than once CPU (ARM)
-- pthread_spinlock_t: 
+- pthread_spinlock_t: sad
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; with the sleep algorithm quite dependent on the architecture. 
+    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; and the sleep algorithm likely being quite dependent on the architecture. 
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
