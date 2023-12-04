@@ -19,7 +19,7 @@ With above caveats in mind, I think these are fair inferences from the data:
     - They are rather CPU-intensive and cache-coherence-destructive - though YMMV with other hardware flavors. And it is not scaling well with contention. Not at all - the time spent per-thread is basically constant. In my tests, test completion times for spinlocks were human-noticeably slower than mutexes (and everyting else) for high contention.
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
-    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; and the sleep algorithm likely being quite dependent on the architecture. 
+    - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; and the best sleep algorithm is likely quite dependent on the CPU flavor. 
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
