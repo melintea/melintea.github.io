@@ -20,6 +20,7 @@ With above caveats in mind, I think these are fair inferences from the data:
     - ARM: just avoid it. It loses  any edge over the mutex at contention levels above 3 on a 4-CPU machine. 
     - Intel: while beating the std::mutex in low-contention environments, pthread_spinlock_t lose their advantage as soon as the contention keeps growing over a given threshold. In this particular test, on a 4-CPU Intel machine, the mutex wins if contention goes over 32 threads. 
     - Custom-written spinlocks could behave better: Fedor Pikus's one has very good performance[^2]. Or the Rigtorp's one[^3]. It is not a simple task[^4] and IMO the improved performance stems from periodically yielding/sleeping (cheating a bit?) but I have no measurements yet; and the best sleep algorithm is likely quite dependent on the CPU flavor. 
+    - Still, it could behave better than mutexes depending on the critical section to be protected, the hardware being used and the contention level; must mesure with the real code 
     - Here is the Intel damage:
 
 ![_config.yml]({{ site.baseurl }}/images/lock-timing-intel1.png)
