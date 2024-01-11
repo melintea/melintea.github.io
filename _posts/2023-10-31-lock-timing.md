@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Some lock timings 
+title: Some lock timings (I) 
 ---
 
 Made a set of measurements for various lock types. These can be used as a guide and not as full substitute for mesurements in a given software context & hardware:
