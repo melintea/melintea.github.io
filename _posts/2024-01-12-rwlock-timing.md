@@ -11,7 +11,7 @@ The std::shared_lock (aka the readers-writers lock) is more complex code than th
 
 Here are a set of measurements for reading with the shortest critical section I can think of (incrementing a counter):
 
-- x86: even at a low contention of 3, the shared_lock wins. I suspect the inflection point happens as soon as contention crosses the CPU sockets number (2 in this case).
+- x86: even at a low contention of 3, the shared_lock wins. I suspect the inflection point happens as soon as contention spills across the CPU sockets (2 in this case) as a result of the cache line plays.
 
 - ARM: the case is less clear. Here the mutex seems faster all the time. I suspect this is due to different/higher barriers costs for ARMs ( {{ site.baseurl }}{% link _posts/2023-10-05-barriers-costs.md %}[^1] ). But with a longer critical section (e.g. fishing for some data out of a container) I still think the shared_lock should outperform the mutex for high reader contention (no measurements yet for this case).
 
