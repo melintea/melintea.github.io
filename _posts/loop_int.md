@@ -3,7 +3,9 @@ layout: post
 title: Use int as a loop variable
 ---
 
-A little gem, courtesy of Fedor Pikus & team: use int as a loop variable. Even though, most of the time, using an unsigned variable is logic. There is some performance that can be extracted by the signed variable. For x86, the case is clear (YMMV with another CPU). For ARM, there is still some little performance that can be squeezed (YMMV, etc.). Though the difference here is within the range of statistical noise, it was always tilted in favor of the int in all the runs I made.
+A little gem, courtesy of Fedor Pikus & team: use int as a loop variable. Even though, most of the time, using an unsigned variable is the logic thing. There is some performance that can be extracted by the signed variable. For x86, the case is clear (YMMV with another CPU). For ARM, there is still some little performance that can be squeezed (YMMV, etc.). Though the difference here is within the range of statistical noise, it was always tilted in favor of the int in all the runs I made.
+
+The compiler generates different code for the increment (duh): the unsigned increment has to wrap around on overflow while the signed increment overflow is UB.
 
 
 ```
