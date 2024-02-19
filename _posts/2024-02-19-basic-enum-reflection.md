@@ -79,4 +79,4 @@ constexpr auto to_string() noexcept
 } //namespace lpt
 ```
 
-[^1]: [https://github.com/melintea/lpt-tools/blob/main/include/lpt/to_string.hpp](https://github.com/melintea/lpt-tools/blob/main/include/lpt/to_string.hpp)
+[^1]: [https://github.com/melintea/lpt-tools/blob/main/include/lpt/enum_tools.hpp](https://github.com/melintea/lpt-tools/blob/main/include/lpt/enum_tools.hpp)
