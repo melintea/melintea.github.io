@@ -3,7 +3,7 @@ layout: post
 title: Basic enum reflection 
 ---
 
-As basic and simple as it can be[^1]. For a full reflection with heavy compiler torture, use magic_enum or reflect-cpp or similar.
+As basic and simple as it can be[^1]. For a full reflection with heavy compiler torture and spending a basket of CPU cycles for it, use magic_enum or reflect-cpp or similar.
 
 ```
 #include <cassert>
@@ -60,7 +60,7 @@ inline constexpr auto enum_name_v = enum_name<E, V>();
 /**
    Stringizing an enum
    \code
-       #include <lpt/to_string.hpp>
+       #include <lpt/enum_tools.hpp>
        enum class Color { eRED=-199, eGREEN=0, eYELLOW=5 };
        std::cout << lpt::to_string<Color::eRED>();
    \endcode
