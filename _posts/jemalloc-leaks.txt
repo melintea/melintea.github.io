@@ -1,0 +1,22 @@
+
+### Redhat service
+
+/etc # cp -pR yum.repos.disabled yum.repos.d
+# yum-config-manager --enable epel
+# /usr/bin/yum install wget gcc autoconf ghostscript graphviz
+ 
+wget https://github.com/jemalloc/jemalloc/archive/refs/heads/dev.zip
+./autogen.sh
+./configure --enable-perf --enable-prof
+ 
+wherever $ cp -pR libjemalloc.so.2 libjemalloc.so.2.bak
+cp -pR ~/jemalloc-dev/lib/libjemalloc.so.2 . 
+ll libjemalloc.*
+ 
+vi /etc/systemd/system/process.service
+Environment="MALLOC_CONF=prof:true,prof_leak:true,lg_prof_sample:20,lg_prof_interval:32,prof_prefix:/var/log/jemalloc/jeprof.out"
+ 
+systemctl daemon-reload
+...
+ 
+~/jemalloc-dev/bin/jeprof   --show_bytes --pdf /path/to/bin /var/log/jemalloc/jeprof.out.7121* > /var/log/jemalloc/jeprof.out.7121.0.i0.heap.pdf
