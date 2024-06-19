@@ -1,11 +1,11 @@
 ---
 layout: post
-title: A (much) faster map search 
+title: A much faster map search 
 ---
 
-I have been tipped how to speed up certain map searches. It cuts the search time in half:
+I have been tipped how to speed up certain map searches. It can cut the search time in half:
 - use ```std::less<>```
-- use ```std::string_view```
+- if the key is a string: use ```std::string_view```
 
 
 
