@@ -3,9 +3,9 @@ layout: post
 title: A much faster map search 
 ---
 
-I have been tipped how to speed up certain map searches. It can cut the search time in half:
+I have been tipped off how to speed up map searches when the key is a string. It can cut the search time in half:
 - use ```std::less<>```
-- if the key is a string: use ```std::string_view```
+- use ```std::string_view```
 
 
 
