@@ -7,7 +7,8 @@ I have been tipped off how to speed up map searches when the key is a string. It
 - use ```std::less<>```
 - use ```std::string_view```
 
-```std::unordered_map``` shows the same 40%+ search speedup benefit.
+
+```std::unordered_map``` exhibits a significant **loss** of search performance when fitted with transparent comparators. Unless I am doing it wrong...
 
 
 ```
