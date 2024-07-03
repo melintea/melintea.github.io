@@ -1,7 +1,9 @@
 ---
 layout: post
-title: A much faster map search 
+title: Half or double 
 ---
+
+The performance lottery.
 
 I have been tipped off how to speed up map searches when the key is a string: use transparent comparators. 
 
