@@ -4,7 +4,8 @@ title: Barriers usage
 ---
 
 
-    Barrier    Usage
-    ---------  ------  
-    relaxed    Counters (when incrementing; when decrementing: use acquire-release if used for refcounting).
-    release    Index. Has dependent data that must be visible when updated.
+- relaxed
+  - for counters 
+  - when decrementing: use acquire-release if used for refcounting
+- release
+  - for an index. Has dependent data that must be visible when updated.
