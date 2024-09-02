@@ -3,13 +3,15 @@ layout: post
 title: c11tester notes
 ---
 
-Notes about [c11tester-llvm](https://github.com/bdemsky/c11tester-llvm) and https://brilliantsugar.github.io/posts/how-i-learned-to-stop-worrying-and-love-juggling-c++-atomics/
+Notes about [c11tester-llvm](https://github.com/bdemsky/c11tester-llvm) and [experimenting details](https://brilliantsugar.github.io/posts/how-i-learned-to-stop-worrying-and-love-juggling-c++-atomics/)
 
 - (just use relacy even though it does not support atomic flags, coroutines and such)
-- the extension can be compiled against llvm8
+- the extension:
+  - can be compiled against llvm8
   - rumored to compile angainst llvm11 but I could not
   - there is an llvm12 branch; I have not tried it
   - seems to be possible to compile it as an out-of-tree but I have not tried it
+  - llvm17 has a new pass manager - this would be the end of life for the c11tester pass
 
 Recipe:
 - get llvm8
@@ -35,7 +37,7 @@ cmake \
 	-DLLVM_ENABLE_EH=ON \
 	-DLLVM_ENABLE_RTTI=ON
 
-# graft c11tester-llvm as CDSPasss
+# graft c11tester-llvm as CDSPasss in-tree per its doc
 
 cmake --build   llvm-project/build
 cmake --install llvm-project/build
