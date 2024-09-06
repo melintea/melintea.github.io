@@ -12,6 +12,9 @@ title: Memory model verification tools
     - there is an llvm12 branch; I have not tried it
     - seems to be possible to compile it as an out-of-tree but I have not tried it
     - llvm17 has a new pass manager - this would be the end of life for the c11tester pass
+- [cdschecker](https://github.com/melintea/cdschecker2)
+  - useable but not with coroutines
+  - original is unmaintained
 - relacy
   - still maintained [dvyukov](https://github.com/dvyukov/relacy) and [ccotter](https://github.com/ccotter/relacy)
   - dated codebase but useable
