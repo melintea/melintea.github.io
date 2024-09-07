@@ -21,5 +21,4 @@ title: Memory model verification tools
 - [genmc](https://github.com/MPI-SWS/genmc)
   - maintained
   - llvm C11 only
-  - TODO
 
