@@ -22,4 +22,5 @@ title: Memory model verification tools
   - maintained
   - llvm C11 only
 - [cppmem](https://www.modernescpp.com/index.php/cppmem-an-overview/)
+- [nitpick](https://www21.in.tum.de/~blanchet/nitpick.html)
 
