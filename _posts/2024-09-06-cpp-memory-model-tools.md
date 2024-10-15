@@ -21,4 +21,5 @@ title: Memory model verification tools
 - [genmc](https://github.com/MPI-SWS/genmc)
   - maintained
   - llvm C11 only
+- [cppmem](https://www.modernescpp.com/index.php/cppmem-an-overview/)
 
