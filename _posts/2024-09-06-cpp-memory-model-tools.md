@@ -13,9 +13,11 @@ title: Memory model verification tools
     - seems to be possible to compile it as an out-of-tree but I have not tried it
     - llvm17 and later has a new pass manager - this would be the end of life for the c11tester pass
 - [cdschecker](https://github.com/melintea/cdschecker2)
+  - too many false positives (see the shared_mutex tests); prefer relacy
   - useable but not with coroutines
   - original is unmaintained
 - relacy
+  - to be preferred over other tools
   - still maintained: [dvyukov](https://github.com/dvyukov/relacy) and [ccotter](https://github.com/ccotter/relacy)
   - dated codebase but useable
 - [genmc](https://github.com/MPI-SWS/genmc)
