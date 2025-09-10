@@ -6,7 +6,7 @@ title: boost concurrent_flat_map performance
 How is boost::concurrent_flat_map comparing to an std::unordered_map protected by an readers-writers lock: 
 - x86_64:
   - write: concurrent map wins
-  - read: unordered map wins by a large margin (!)
+  - **read: unordered map wins by a large margin (!). Caveat emptor if the code is read-intensive.**
 - ARM:
   - write: concurrent map wins by a large margin
   - read: concurrent map wins
