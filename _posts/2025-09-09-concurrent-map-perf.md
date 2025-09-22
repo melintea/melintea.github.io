@@ -3,7 +3,7 @@ layout: post
 title: boost concurrent_flat_map performance
 ---
 
-How is boost::concurrent_flat_map comparing to an std::unordered_map protected by an readers-writers lock: 
+How is [boost::concurrent_flat_map](https://www.boost.org/doc/libs/1_89_0/libs/unordered/doc/html/unordered/reference/concurrent_flat_map.html) comparing to an std::unordered_map protected by an readers-writers lock: 
 - x86_64:
   - write: concurrent map wins
   - **read: unordered map wins by a large margin (!). Caveat emptor if the code is read-intensive.**
