@@ -11,7 +11,7 @@ How is [boost::concurrent_flat_map](https://www.boost.org/doc/libs/1_89_0/libs/u
   - write: concurrent map wins by a large margin
   - read: concurrent map wins
 
-YMMV with different key or node types, compilers, CPU, boost implementation, etc.
+YMMV with specific concurrency levels, different key or node types, compilers, CPU, boost implementation, etc.
 
 
 x86_64 4x Intel(R) Pentium(R) Gold G5420 CPU @ 3.80GHz :
