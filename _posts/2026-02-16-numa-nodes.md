@@ -1,6 +1,6 @@
 ---
 layout: post
-title: NUMA nodes notes 
+title: NUMA performance notes 
 ---
 
 - NUMA nodes false sharing is extensive:
