@@ -16,7 +16,7 @@ title: NUMA performance notes
 - use NUMA-aware thread pools
 
 - Linux kernel presure points:
-  - TLB: shootdowns (inter-processor interrupts!) by:
+  - TLB: shootdowns (inter-processor interrupts!) may be caused by:
     - NUMA page migrations
     - changes in memory mappings
     - memory access modes/protection
@@ -25,16 +25,16 @@ title: NUMA performance notes
       - madvise(addr, size); addr is 4K aligned; size is x*2M
       - memory must be reserved/come from mmap()
   - disable NUMA migration:
-    - use numactl
+    - use ```numactl```
     - bind program/thread to a single NUMA node/set of
     - turn off NUMA balancing ```/proc/sys/kernel/numa_balancing``` 0
     - overall program likely to be slower now
 
-- low CPU usage on NUMA at OS-level (idle time). Likely IO bound
+- If low CPU usage on NUMA at OS-level (idle time). Likely IO bound
   - try lowering the ```kernel.sched_migration_cost_ns```
-  - move processes that use network NICs to node 0 (NIC connects to PCIE of node 0
+  - move processes that use network NICs to node 0 (NIC connects to PCIE of node 0)
   
-- CPU stays high (100%):
+- If the CPU stays high (100%):
   - maybe frequency drop when load is high: not enough wattage/power
   
 - CPU simulators? Digital Ocean
