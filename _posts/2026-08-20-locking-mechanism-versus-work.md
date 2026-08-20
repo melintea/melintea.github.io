@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Locking mechanism versus workload 
+title: Locking mechanism versus contention 
 ---
 
 [https://www.youtube.com/watch?v=UdKqfQ3a_sY&t=36s](https://www.youtube.com/watch?v=UdKqfQ3a_sY&t=36s)
