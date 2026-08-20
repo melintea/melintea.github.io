@@ -25,4 +25,5 @@ title: Memory model verification tools
   - llvm C11 only
 - [cppmem](https://www.modernescpp.com/index.php/cppmem-an-overview/)
 - [nitpick](https://www21.in.tum.de/~blanchet/nitpick.html)
+- [vsyncer](https://github.com/open-s4c/vsyncer) toolkit to verify and optimize concurrent C/C++ programs on Weak Memory Models (WMMs). TBD.
 
