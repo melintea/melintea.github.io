@@ -40,5 +40,5 @@ title: NUMA performance notes
 - CPU simulators? Digital Ocean
 
 
-@see https://www.youtube.com/watch?v=wGSSUSeaLgA
+@see [https://www.youtube.com/watch?v=wGSSUSeaLgA](https://www.youtube.com/watch?v=wGSSUSeaLgA)
 
